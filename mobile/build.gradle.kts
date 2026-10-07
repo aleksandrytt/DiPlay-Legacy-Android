@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
-// Optional local-only input. CI and ordinary source builds contain no accessory identity.
 val localAuthenticationAssets = providers.environmentVariable("DIPLAY_AUTH_ASSETS_DIR")
     .orNull?.let { file(it).canonicalFile }
 
@@ -14,14 +13,13 @@ android {
 
     defaultConfig {
         applicationId = "com.shihab.diplay"
-        minSdk = 19
-        targetSdk = 37
+        // Experimental Android 4.0.4 floor. Runtime features are guarded separately.
+        minSdk = 15
+        targetSdk = 19
         multiDexEnabled = true
-        versionCode = 26
-        versionName = "0.2.7"
-
+        versionCode = 27
+        versionName = "0.2.7-api15"
     }
-
 
     localAuthenticationAssets?.let { sourceSets.getByName("main").assets.srcDir(it) }
 
@@ -49,6 +47,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -63,7 +62,6 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
 }
 
-// No implicit import. Only the two explicitly selected local runtime assets are allowed.
 val credentialAssets = files(android.sourceSets.flatMap { source ->
     source.assets.directories.map { directory ->
         fileTree(directory) {
@@ -88,7 +86,6 @@ val rejectBundledCredentials by tasks.registering {
 }
 tasks.named("preBuild") { dependsOn(rejectBundledCredentials) }
 
-// Car-test packages must be standalone. Keep ordinary source/CI builds identity-free.
 val verifyStandaloneAuthentication by tasks.registering {
     group = "verification"
     description = "Require the explicit runtime authentication input for a standalone car-test APK."

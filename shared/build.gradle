@@ -6,7 +6,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        minSdk = 19
+        minSdk = 15
         targetSdk = 37
         multiDexEnabled true
 
@@ -16,13 +16,13 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-                arguments 'APP_PLATFORM=android-19'
+                arguments 'APP_PLATFORM=android-15'
             }
         }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    // NDK r25c is the last supported toolchain that still targets Android 4.4 (API 19).
+    // Experimental API 15 native target for Android 4.0.4.
     ndkVersion = '25.2.9519653'
     externalNativeBuild {
         ndkBuild {

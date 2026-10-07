@@ -1,2 +1,2 @@
-APP_PLATFORM := android-28
+APP_PLATFORM := android-15
 APP_STL := none
