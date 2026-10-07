@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 19
+        minSdk = 15
         multiDexEnabled = true
     }
 
@@ -18,7 +18,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
-
 }
 
 dependencies {
